@@ -5,6 +5,8 @@ const database = require('./controllers/database')
 app.get('/', require('./controllers/root'))
 app.get('/places', require('./controllers/getPlaces'))
 
+app.post('/places', require('./controllers/postPlaces'))
+
 
 app.listen(5000, () => {
     console.log('Ready on port 5000')

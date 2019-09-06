@@ -5,3 +5,5 @@ module.exports = (req, res) => {
         .then(data => res.send(data))
         .catch(err => { console.log(err) })
 }
+
+

@@ -16,7 +16,9 @@ app.use(bodyParser.json())
 // Routes
 app.get('/', require('./controllers/root'))
 app.get('/places', require('./controllers/getPlaces'))
+app.get('/places/:id', require('./controllers/getPlace'))
 app.post('/places', require('./controllers/postPlaces'))
+
 
 
 // Run server

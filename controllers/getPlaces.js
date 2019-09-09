@@ -11,6 +11,8 @@ module.exports = (req, res) => {
         return queries
     }
 
+
+
     Place.find(
         search()
     )
@@ -18,8 +20,30 @@ module.exports = (req, res) => {
             path: 'type',
             select: 'rooms city country images price reviews title type'
         })
-        .then(data => res.send(data))
-        .catch(err => { console.log(err) })
+
+    let getPlaces = () => {
+        return new Promise = (res, rej) => {
+            places.map(place => { 
+                getReviews(place)
+                .then(res =>{
+                    place.reviews = res
+                })
+                .catch(e => console.log(e))
+            }).then( (mapResult) => {res(mapResult)})
+        }
+    }
+
+    let getReviews = (place) => {
+        return new Promise =(res, rej) => {
+            Review.find({ place: place._id })
+            .then((reviews) => {res(reviews)})
+        }
+    }
+
+       
+    getPlaces()
+    .then(res => res.send())
+    .catch(err => { console.log(err) })
 }
 
 

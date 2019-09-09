@@ -1,5 +1,4 @@
 const Review = require('../models/review')
-const Place = require('../models/place')
 
 module.exports = (req, res) => {
 

@@ -6,6 +6,7 @@ module.exports = (req, res) => {
             path: 'host',
             select: 'name avatar'
         })
+        .populate('amenity')
         .then(data => {
             res.send(data)
         })

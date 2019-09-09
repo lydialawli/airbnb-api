@@ -48,7 +48,8 @@ const Place = mongoose.model('place', {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
     required: [true, 'User is required']
-  }
+  },
+  images: [String]
 })
 
 module.exports = Place

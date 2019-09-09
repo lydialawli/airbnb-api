@@ -21,8 +21,8 @@ app.post('/places', require('./controllers/postPlaces'))
 app.patch('/places/:id', require('./controllers/patchPlace'))
 app.delete('/places/:id', require('./controllers/deletePlace'))
 
-
 app.post('/type', require('./controllers/postType'))
+app.get('/types', require('./controllers/getTypes'))
 
 // Run server
 app.listen(5000, () => {

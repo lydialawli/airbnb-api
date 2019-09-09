@@ -14,6 +14,7 @@ module.exports = (req, res) => {
     Place.find(
         search()
     )
+        .populate('type')
         .then(data => res.send(data))
         .catch(err => { console.log(err) })
 }

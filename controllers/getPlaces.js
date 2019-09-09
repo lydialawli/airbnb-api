@@ -15,6 +15,7 @@ module.exports = (req, res) => {
         search()
     )
         .populate('type')
+        .populate('host')
         .then(data => res.send(data))
         .catch(err => { console.log(err) })
 }

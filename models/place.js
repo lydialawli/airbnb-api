@@ -43,6 +43,11 @@ const Place = mongoose.model('place', {
   bathrooms: {
     type: Number,
     required: [true, 'Bathrooms is required']
+  },
+  host: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
+    required: [true, 'User is required']
   }
 })
 

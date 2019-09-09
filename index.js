@@ -25,6 +25,7 @@ app.post('/type', require('./controllers/postType'))
 app.get('/types', require('./controllers/getTypes'))
 
 app.post('/users', require('./controllers/postUsers'))
+app.get('/users', require('./controllers/getUsers'))
 
 // Run server
 app.listen(5000, () => {

@@ -14,7 +14,10 @@ module.exports = (req, res) => {
     Place.find(
         search()
     )
-        .populate('type')
+        .populate({
+            path: 'type',
+            select: 'rooms city country images price reviews title type'
+        })
         .then(data => res.send(data))
         .catch(err => { console.log(err) })
 }

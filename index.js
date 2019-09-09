@@ -31,6 +31,7 @@ app.post('/amenities', require('./controllers/postAmenities'))
 app.get('/amenities', require('./controllers/getAmenities'))
 
 app.post('/reviews', require('./controllers/postReviews'))
+app.get('/reviews/:id', require('./controllers/getReviews'))
 
 // Run server
 app.listen(5000, () => {

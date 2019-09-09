@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const Review = mongoose.model('type', {
+const Review = mongoose.model('review', {
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',

@@ -1,6 +1,4 @@
 const mongoose = require('mongoose')
-const Type = require('../models/type')
-
 
 const Place = mongoose.model('place', {
   title: {
@@ -49,7 +47,13 @@ const Place = mongoose.model('place', {
     ref: 'user',
     required: [true, 'User is required']
   },
-  images: [String]
+  images: [String],
+  amenities: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'amenity',
+    }
+  ]
 })
 
 module.exports = Place

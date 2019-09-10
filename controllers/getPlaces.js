@@ -12,7 +12,9 @@ module.exports = (req, res) => {
         return queries
     }
 
-		Place.find({}).lean().then(data => {
+		Place.find({})
+			.populate('type')
+			.lean().then(data => {
 			let places = data.map(p => {
 				return Review.find({place: p._id})
 				.then(reviews => {

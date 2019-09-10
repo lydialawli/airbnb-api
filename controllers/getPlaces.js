@@ -21,7 +21,12 @@ module.exports = (req, res) => {
 			let places = data.map(p => {
 				return Review.find({place: p._id})
 				.then(reviews => {
+					let sum = 0
 					p.reviews = reviews.length
+					reviews.forEach(e=>{
+						sum += e.rating
+					})
+					p.rating = Math.round(sum/reviews.length)
 					p.image = p.images[0]
 					delete p.images
 					return p

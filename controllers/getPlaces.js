@@ -12,7 +12,7 @@ module.exports = (req, res) => {
         return queries
     }
 
-		Place.find({})
+		Place.find(search())
 			.populate('type')
 			.lean().then(data => {
 			let places = data.map(p => {

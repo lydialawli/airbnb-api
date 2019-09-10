@@ -7,11 +7,13 @@ const app = express()
 // Database
 const database = require('./controllers/database')
 
- 
+
 // Middleware
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+const cors = require('cors')
+app.use(cors({credentials: true}))
 
 // Routes
 app.get('/places/:id', require('./controllers/getPlace'))
@@ -37,4 +39,3 @@ app.get('/reviews/:id', require('./controllers/getReviews'))
 app.listen(5000, () => {
     console.log('Ready on port 5000')
 })
-

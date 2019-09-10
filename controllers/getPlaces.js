@@ -11,20 +11,17 @@ module.exports = (req, res) => {
         req.query.min_guests ? queries.guests = { $gte: req.query.min_guests } : null
         return queries
     }
-
-
-    Place.find(
-        search()
-    )
-        .populate({
-            path: 'type',
-            select: 'rooms city country images price reviews title type'
-        })
-
-        .then(data => res.send(data))
-        .catch(err => { console.log(err) })
+		
+		Place.find({}).lean().then(data => {
+			let places = data.map(p => {
+				return Review.find({place: p._id}).then(reviews => {
+					p.reviews = reviews.length
+					return p
+				})
+			})
+			Promise.all(places).then(data => {
+				res.send(data)
+			})
+			.catch(err => { console.log(err) })
+		})
 }
-
-
-
-

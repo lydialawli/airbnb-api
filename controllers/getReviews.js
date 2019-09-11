@@ -7,7 +7,10 @@ module.exports = (req, res) => {
             path: 'place',
             select: 'id'
         })
-				.populate('author')
+				.populate({
+            path: 'author',
+            select: 'avatar name'
+        })
         .then(data => res.send(data))
 
         .catch(err => { console.log(err) })

@@ -5,8 +5,9 @@ module.exports = (req, res) => {
     Review.find({place:req.params.id})
         .populate({
             path: 'place',
-            select: 'id images'
+            select: 'id'
         })
+				.populate('author')
         .then(data => res.send(data))
 
         .catch(err => { console.log(err) })

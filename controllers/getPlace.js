@@ -7,7 +7,7 @@ module.exports = (req, res) => {
             path: 'host',
             select: 'name avatar'
         })
-        .populate('amenity')
+        .populate('amenities type')
 				.lean()
         .then(place => {
 					Review.find({place: place._id})

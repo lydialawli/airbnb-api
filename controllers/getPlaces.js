@@ -33,7 +33,6 @@ module.exports = (req, res) => {
 				})
 				.catch(err => { console.log(err) })
 			})
-				.catch(err => { console.log(err) })
 			Promise.all(places)
 			.then(data => {res.send(data)})
 			.catch(err => { console.log(err) })

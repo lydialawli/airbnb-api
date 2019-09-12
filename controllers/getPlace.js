@@ -21,6 +21,7 @@ module.exports = (req, res) => {
 						place.rating = Math.round(sum/reviews.length)
 						res.send(place)
 					})
+						.catch(err => { console.log(err) })
 
         })
         .catch(err => console.log(err))

@@ -31,7 +31,9 @@ module.exports = (req, res) => {
 					delete p.images
 					return p
 				})
+				.catch(err => { console.log(err) })
 			})
+				.catch(err => { console.log(err) })
 			Promise.all(places)
 			.then(data => {res.send(data)})
 			.catch(err => { console.log(err) })

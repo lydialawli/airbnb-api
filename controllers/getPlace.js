@@ -17,6 +17,7 @@ module.exports = (req, res) => {
 						reviews.forEach(e=>{
 							sum += e.rating
 						})
+						place.image = place.images[0]
 						place.rating = Math.round(sum/reviews.length)
 						res.send(place)
 					})

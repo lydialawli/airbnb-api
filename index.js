@@ -10,10 +10,14 @@ const database = require('./controllers/database')
 
 // Middleware
 const bodyParser = require('body-parser')
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({
+  extended: false
+}))
 app.use(bodyParser.json())
 const cors = require('cors')
-app.use(cors({credentials: true}))
+app.use(cors({
+  credentials: true
+}))
 
 // Routes
 app.get('/places/:id', require('./controllers/getPlace'))
@@ -39,5 +43,5 @@ app.post('/signup', require('./controllers/postSignup'))
 
 // Run server
 app.listen(5000, () => {
-    console.log('Ready on port 5000')
+  console.log('Ready on port 5000')
 })

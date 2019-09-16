@@ -7,7 +7,6 @@ require('dotenv').config()
 // Database
 const database = require('./controllers/database')
 
-
 // Middleware
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({
@@ -18,7 +17,6 @@ const cors = require('cors')
 app.use(cors({
   credentials: true
 }))
-
 
 // Routes
 app.get('/places/:id', require('./controllers/getPlace'))

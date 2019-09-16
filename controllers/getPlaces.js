@@ -3,38 +3,54 @@ const Review = require('../models/review')
 
 module.exports = (req, res) => {
 
-    search = () => {
-        let queries = {}
+  search = () => {
+    let queries = {}
 
-        req.query.max_price ? queries.price = { $lte: req.query.max_price } : null
-        req.query.min_rooms ? queries.rooms = { $gte: req.query.min_rooms } : null
-        req.query.min_guests ? queries.guests = { $gte: req.query.min_guests } : null
+    req.query.max_price ? queries.price = {
+      $lte: req.query.max_price
+    } : null
+    req.query.min_rooms ? queries.rooms = {
+      $gte: req.query.min_rooms
+    } : null
+    req.query.min_guests ? queries.guests = {
+      $gte: req.query.min_guests
+    } : null
 
-				req.query.type ? queries.type = req.query.type : null
+    req.query.type ? queries.type = req.query.type : null
 
-        return queries
-    }
+    return queries
+  }
 
-		Place.find(search())
-			.populate('type')
-			.lean().then(data => {
-			let places = data.map(p => {
-				return Review.find({place: p._id})
-				.then(reviews => {
-					let sum = 0
-					p.reviews = reviews.length
-					reviews.forEach(e=>{
-						sum += e.rating
-					})
-					p.rating = Math.round(sum/reviews.length)
-					p.image = p.images[0]
-					delete p.images
-					return p
-				})
-				.catch(err => { console.log(err) })
-			})
-			Promise.all(places)
-			.then(data => {res.send(data)})
-			.catch(err => { console.log(err) })
-		})
+  Place.find(search())
+    .populate('type')
+    .lean().then(data => {
+      let places = data.map(p => {
+        return Review.find({
+            place: p._id
+          })
+          .then(reviews => {
+            let sum = 0
+            p.reviews = reviews.length
+            reviews.forEach(e => {
+              sum += e.rating
+            })
+            p.rating = Math.round(sum / reviews.length)
+            p.image = p.images[0]
+            delete p.images
+            return p
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      })
+      Promise.all(places)
+        .then(data => {
+          res.send(data)
+        }).catch(err => {
+          console.log(err)
+        })
+
+    }).catch(err => {
+      console.log(err)
+    })
 }

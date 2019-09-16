@@ -16,7 +16,7 @@ module.exports = (req, res) => {
 
           let obj = user.toObject()
 
-          let token = jwt.sign(obj, 'superSecretKey')
+          let token = jwt.sign(obj, `${process.env.SECRET}`)
           res.send(token)
         })
         .catch(err => console.log(err))

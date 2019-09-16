@@ -3,7 +3,7 @@ const express = require('express')
 
 // Express API
 const app = express()
-
+require('dotenv').config()
 // Database
 const database = require('./controllers/database')
 
@@ -18,6 +18,7 @@ const cors = require('cors')
 app.use(cors({
   credentials: true
 }))
+
 
 // Routes
 app.get('/places/:id', require('./controllers/getPlace'))
@@ -41,7 +42,9 @@ app.get('/reviews/:id', require('./controllers/getReviews'))
 
 app.post('/signup', require('./controllers/postSignup'))
 
+app.post('/login', require('./controllers/postLogin'))
+
 // Run server
-app.listen(5000, () => {
-  console.log('Ready on port 5000')
+app.listen(process.env.PORT, () => {
+  console.log(`Ready on port ${process.env.PORT}`)
 })

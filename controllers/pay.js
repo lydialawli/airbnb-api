@@ -7,7 +7,7 @@ module.exports = (req, res) => {
       description: req.body.description,
       source: req.body.token
     }).then(data => {
-      req.send(data)
+      res.send(data)
     })
     .catch(err => req.send('error!', err))
 }

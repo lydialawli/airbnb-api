@@ -1,9 +1,11 @@
+require('dotenv').config()
+
 // Express
 const express = require('express')
 
 // Express API
 const app = express()
-require('dotenv').config()
+
 // Database
 const database = require('./controllers/database')
 
@@ -41,6 +43,8 @@ app.get('/reviews/:id', require('./controllers/getReviews'))
 app.post('/signup', require('./controllers/postSignup'))
 
 app.post('/login', require('./controllers/postLogin'))
+
+app.post('/pay', require('./controllers/pay'))
 
 // Run server
 app.listen(process.env.PORT, () => {

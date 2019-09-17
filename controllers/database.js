@@ -6,5 +6,4 @@ let database = mongoose.connect(process.env.MONGODB_URI, {
   err ? console.log(err) : console.log('Connected to MongoDB')
 })
 
-
 module.exports = database

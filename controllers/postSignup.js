@@ -18,7 +18,7 @@ module.exports = (req, res) => {
 
           let token = jwt.sign(obj, `${process.env.SECRET}`)
           res.send(token)
-        }) s
+        })
         .catch(err => console.log(err))
       )
     })

@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 module.exports = (req, res) => {
   User.findOne({
       email: req.body.email
-    }).lean()
+    }).select('email password')
     .then(user => {
       if (!user)
         res.send('no user with this email')
@@ -17,9 +17,7 @@ module.exports = (req, res) => {
           let obj = user.toObject()
           let token = jwt.sign(obj, process.env.SECRET)
 
-          res.send({
-            token: token
-          })
+          res.send(token)
         } else {
           res.send('wrong password')
         }

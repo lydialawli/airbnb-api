@@ -7,11 +7,11 @@ const User = mongoose.model('user', {
   },
   email: {
     type: String,
-    required: [true, 'Name is required']
+    required: [true, 'Email is required']
   },
   location: {
     type: String,
-    required: [true, 'Name is required']
+    required: [true, 'Location is required']
   },
   name: {
     type: String,
@@ -19,7 +19,7 @@ const User = mongoose.model('user', {
   },
   password: {
     type: String,
-    required: [true, 'Name is required'],
+    required: [true, 'Password is required'],
     select: false
   }
 })

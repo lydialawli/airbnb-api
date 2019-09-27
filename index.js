@@ -46,6 +46,8 @@ app.post('/login', require('./controllers/postLogin'))
 
 app.post('/pay', require('./controllers/pay'))
 
+app.post('/auth', require('./controllers/auth'))
+
 // Run server
 app.listen(process.env.PORT, () => {
   console.log(`Ready on port ${process.env.PORT}`)

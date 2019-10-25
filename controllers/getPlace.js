@@ -11,11 +11,12 @@ module.exports = (req, res) => {
     .lean()
     .then(place => {
       Review.find({
-          place: place._id
-        })
+        place: place._id
+      })
+        .populate('author')
         .then(reviews => {
           let sum = 0
-          place.reviews = reviews.length
+          place.reviews = reviews
           reviews.forEach(e => {
             sum += e.rating
           })

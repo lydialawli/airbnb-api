@@ -8,7 +8,7 @@ module.exports = (req, res) => {
     }).select('name email password avatar location')
     .then(user => {
       if (!user)
-        res.send('no user with this email')
+        res.send('user or password incorrect')
       else {
         let match = bcrypt.compareSync(req.body.password, user.password)
 

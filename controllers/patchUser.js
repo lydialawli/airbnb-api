@@ -14,7 +14,7 @@ module.exports = (req, res) => {
             if (placeId) {
                 if (likes.includes(placeId))
                     user.likes = user.likes.filter(l => {
-                        l.toString() !== placeId
+                        l !== placeId
                     })
                 else {
                     user.likes.push(placeId)

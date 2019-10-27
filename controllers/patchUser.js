@@ -22,7 +22,12 @@ module.exports = (req, res) => {
             }
 
             User.findByIdAndUpdate(user._id, user, { new: true })
-                .then(updatedUser => res.send(updatedUser))
+                .then(updatedUser => {
+                    let obj = updatedUser.toObject()
+                    let newToken = jwt.sign(obj, process.env.SECRET)
+                    
+                    res.send({user:obj, token: newToken})
+                })
 
         })
 

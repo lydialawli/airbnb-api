@@ -1,5 +1,12 @@
 require('dotenv').config()
 
+// mongoose deprecation warnings prevention
+const mongoose = require('mongoose')
+mongoose.set('useNewUrlParser', true)
+mongoose.set('useFindAndModify', false)
+mongoose.set('useCreateIndex', true)
+mongoose.set('useUnifiedTopology', true)
+
 // Express
 const express = require('express')
 
@@ -33,6 +40,7 @@ app.get('/types', require('./controllers/getTypes'))
 
 app.post('/users', require('./controllers/postUsers'))
 app.get('/users', require('./controllers/getUsers'))
+app.patch('/users', require('./controllers/patchUser'))
 
 app.post('/amenities', require('./controllers/postAmenities'))
 app.get('/amenities', require('./controllers/getAmenities'))

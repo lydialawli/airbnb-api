@@ -21,7 +21,11 @@ const User = mongoose.model('user', {
     type: String,
     required: [true, 'Password is required'],
     select: false
-  }
+  },
+  likes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'place'
+  }]
 })
 
 module.exports = User

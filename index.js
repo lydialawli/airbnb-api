@@ -28,6 +28,8 @@ app.use(cors({
 }))
 
 // Routes
+app.get('/favorites', require('./controllers/getFavorites'))
+
 app.get('/places/:id', require('./controllers/getPlace'))
 app.get('/', require('./controllers/root'))
 app.get('/places', require('./controllers/getPlaces'))

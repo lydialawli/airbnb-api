@@ -27,6 +27,10 @@ app.use(cors({
   credentials: true
 }))
 
+// uploading files
+const multer = require('multer') 
+const upload = multer({ dest: 'photos/' })
+
 // Routes
 app.get('/favorites', require('./controllers/getFavorites'))
 
@@ -47,10 +51,11 @@ app.patch('/users', require('./controllers/patchUser'))
 app.post('/amenities', require('./controllers/postAmenities'))
 app.get('/amenities', require('./controllers/getAmenities'))
 
+
 app.post('/reviews', require('./controllers/postReviews'))
 app.get('/reviews/:id', require('./controllers/getReviews'))
 
-app.post('/signup', require('./controllers/postSignup'))
+app.post('/signup', upload.single('file'), require('./controllers/postSignup'))
 app.post('/login', require('./controllers/postLogin'))
 app.post('/pay', require('./controllers/pay'))
 app.get('/auth', require('./controllers/auth'))

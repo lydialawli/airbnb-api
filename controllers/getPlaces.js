@@ -25,8 +25,6 @@ module.exports = (req, res) => {
   Place.find(search())
     .populate('type')
     .lean().then(data => {
-      console.log('hereee ==> ',search())
-
       let places = data.map(p => {
         return Review.find({
           place: p._id

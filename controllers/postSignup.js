@@ -13,7 +13,7 @@ module.exports = (req, res) => {
     .then(user => {
       user ? res.send(false) : (
         User.create(req.body).then(user => {
-
+        
           let obj = user.toObject()
 
           let token = jwt.sign(obj, process.env.SECRET)

@@ -12,10 +12,11 @@ module.exports = (req, res) => {
             let likes = user.likes.map(like => like.toString())
 
             if (placeId) {
-                if (likes.includes(placeId))
+                if (likes.includes(placeId)) {
                     user.likes = user.likes.filter(l => {
                         l !== placeId
                     })
+                }
                 else {
                     user.likes.push(placeId)
                 }
@@ -25,8 +26,8 @@ module.exports = (req, res) => {
                 .then(updatedUser => {
                     let obj = updatedUser.toObject()
                     let newToken = jwt.sign(obj, process.env.SECRET)
-                    
-                    res.send({user:obj, token: newToken})
+
+                    res.send({ user: obj, token: newToken })
                 })
 
         })

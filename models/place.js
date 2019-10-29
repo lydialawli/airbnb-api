@@ -51,7 +51,11 @@ const Place = mongoose.model('place', {
   amenities: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'amenity'
-  }]
+  }],
+  date: {
+    type: Date,
+    default: Date.now
+  }
 })
 
 module.exports = Place

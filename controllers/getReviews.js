@@ -2,12 +2,12 @@ const Review = require('../models/review')
 
 module.exports = (req, res) => {
 
-    Review.find({place:req.params.id})
+    Review.find({ place: req.params.id })
         .populate({
             path: 'place',
             select: 'id'
         })
-				.populate({
+        .populate({
             path: 'author',
             select: 'avatar name'
         })

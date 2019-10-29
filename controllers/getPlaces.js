@@ -4,7 +4,7 @@ const Review = require('../models/review')
 module.exports = (req, res) => {
 
   search = () => {
-    let queries = {}
+     queries = {}
 
     req.query.max_price ? queries.price = {
       $lte: req.query.max_price
@@ -16,7 +16,8 @@ module.exports = (req, res) => {
       $gte: req.query.min_guests
     } : null
 
-    req.query.type ? queries.type = req.query.type : null
+    req.query.type ? queries = { type: req.query.type } : null
+    req.query.user ? queries = { host: req.query.user } : null
 
     return queries
   }
@@ -24,10 +25,12 @@ module.exports = (req, res) => {
   Place.find(search())
     .populate('type')
     .lean().then(data => {
+      console.log('hereee ==> ',search())
+
       let places = data.map(p => {
         return Review.find({
-            place: p._id
-          })
+          place: p._id
+        })
           .then(reviews => {
             let sum = 0
             p.reviews = reviews.length

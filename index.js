@@ -27,9 +27,10 @@ app.use(cors({
   credentials: true
 }))
 
-// uploading files
+// multer middleware
 const multer = require('multer')
-const upload = multer({ dest: 'photos/' })
+const storage = multer.memoryStorage();
+const multerUploads = multer({ storage }).single('image');
 
 // Routes
 app.get('/favorites', require('./controllers/getFavorites'))
@@ -37,7 +38,8 @@ app.get('/favorites', require('./controllers/getFavorites'))
 app.get('/places/:id', require('./controllers/getPlace'))
 app.get('/', require('./controllers/root'))
 app.get('/places', require('./controllers/getPlaces'))
-app.post('/places', upload.array('photos',9), require('./controllers/postPlaces'))
+app.post('/places', require('./controllers/postPlaces'))
+// app.post('/places', upload.array('photos', 9), require('./controllers/postPlaces'))
 app.patch('/places/:id', require('./controllers/patchPlace'))
 app.delete('/places/:id', require('./controllers/deletePlace'))
 
@@ -54,10 +56,15 @@ app.get('/amenities', require('./controllers/getAmenities'))
 app.post('/reviews', require('./controllers/postReviews'))
 app.get('/reviews/:id', require('./controllers/getReviews'))
 
-app.post('/signup', upload.single('avatar'), require('./controllers/postSignup'))
+app.post('/signup', require('./controllers/postSignup'))
+// app.post('/signup', upload.single('avatar'), require('./controllers/postSignup'))
 app.post('/login', require('./controllers/postLogin'))
 app.post('/pay', require('./controllers/pay'))
 app.get('/auth', require('./controllers/auth'))
+
+app.post('/upload', multerUploads, (req, res) => {
+  console.log('req.file :', req.file);
+})
 
 // Run server
 app.listen(process.env.PORT, () => {

@@ -18,19 +18,24 @@ const database = require('./controllers/database')
 
 // Middleware
 const bodyParser = require('body-parser')
-app.use(bodyParser.urlencoded({
-  extended: false
-}))
-app.use(bodyParser.json())
 const cors = require('cors')
-app.use(cors({
-  credentials: true
-}))
 
 // multer middleware
-const multer = require('multer')
-const storage = multer.memoryStorage();
-const multerUploads = multer({ storage }).single('image');
+const multerUploads = require('./middleware/multerUpload')
+const Datauri = require('datauri')
+const cloudinaryConfig = require('./config/cloudinaryConfig')
+const path = require('path')
+const cloudinary = require('cloudinary')
+const dUri = new Datauri()
+const dataUri = req => dUri.format(path.extname(req.file.originalname).toString(), req.file.buffer);
+
+
+app.use(express.static(path.join(__dirname, 'src/public')))
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+app.use(cors({ credentials: true }))
+app.use('*', cloudinaryConfig)
+
 
 // Routes
 app.get('/favorites', require('./controllers/getFavorites'))
@@ -62,9 +67,30 @@ app.post('/login', require('./controllers/postLogin'))
 app.post('/pay', require('./controllers/pay'))
 app.get('/auth', require('./controllers/auth'))
 
+app.get('/*', (req, res) => res.sendFile(path.join(__dirname, '../public/index.html')));
 app.post('/upload', multerUploads, (req, res) => {
-  console.log('req.file :', req.file);
-})
+  if (req.file) {
+    const file = dataUri(req).content
+
+    return cloudinary.uploader.upload(file).then((result) => {
+      const image = result.url;
+      return res.status(200).json({
+        messge: 'Your image has been uploded successfully to cloudinary',
+        data: {
+          image
+        }
+      })
+    }).catch((err) => res.status(400).json({
+      messge: 'someting went wrong while processing your request',
+      data: {
+        err
+      }
+    }))
+    // console.log('req.file :', file)
+
+  }
+
+});
 
 // Run server
 app.listen(process.env.PORT, () => {

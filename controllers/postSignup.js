@@ -23,9 +23,10 @@ module.exports = (req, res) => {
 
           return cloudinary.uploader.upload(file).then((result) => {
             const image = result.url
+            let user = req.body
+            user.avatar = image
 
-            User.create(req.body).then(user => {
-              user.avatar = image
+            User.create(user).then(user => {
               let obj = user.toObject()
 
               let token = jwt.sign(obj, process.env.SECRET)

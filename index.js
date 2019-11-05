@@ -21,14 +21,24 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 
 // multer middleware
+const multer = require('multer')
 const multerUploads = require('./middleware/multerUpload')
 const Datauri = require('datauri')
 const cloudinaryConfig = require('./config/cloudinaryConfig')
 const path = require('path')
 const cloudinary = require('cloudinary')
 const dUri = new Datauri()
-const dataUri = req => dUri.format(path.extname(req.file.originalname).toString(), req.file.buffer);
+const dataUri = req => dUri.format(path.extname(req.file.originalname).toString(), req.file.buffer)
 
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+  cb(null, 'public')
+},
+filename: function (req, file, cb) {
+  cb(null, Date.now() + '-' +file.originalname )
+}
+})
+var upload = multer({ dest: 'photos/' }).single('file')
 
 app.use(express.static(path.join(__dirname, 'src/public')))
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -38,6 +48,20 @@ app.use('*', cloudinaryConfig)
 
 
 // Routes
+app.post('/uploadd',function(req, res) {
+     
+  upload(req, res, function (err) {
+         if (err instanceof multer.MulterError) {
+             return res.status(500).json(err)
+         } else if (err) {
+             return res.status(500).json(err)
+         }
+    return res.status(200).send(req.file)
+
+  })
+
+})
+
 app.get('/favorites', require('./controllers/getFavorites'))
 
 app.get('/places/:id', require('./controllers/getPlace'))
@@ -61,19 +85,22 @@ app.get('/amenities', require('./controllers/getAmenities'))
 app.post('/reviews', require('./controllers/postReviews'))
 app.get('/reviews/:id', require('./controllers/getReviews'))
 
-app.post('/signup', require('./controllers/postSignup'))
+app.post('/signup', multerUploads, require('./controllers/postSignup'))
 // app.post('/signup', upload.single('avatar'), require('./controllers/postSignup'))
 app.post('/login', require('./controllers/postLogin'))
 app.post('/pay', require('./controllers/pay'))
 app.get('/auth', require('./controllers/auth'))
 
-app.get('/*', (req, res) => res.sendFile(path.join(__dirname, '../public/index.html')));
+app.get('/*', (req, res) => res.sendFile(path.join(__dirname, '../public/index.html')))
+
 app.post('/upload', multerUploads, (req, res) => {
   if (req.file) {
     const file = dataUri(req).content
 
     return cloudinary.uploader.upload(file).then((result) => {
       const image = result.url;
+      res.send('image is:',image)
+
       return res.status(200).json({
         messge: 'Your image has been uploded successfully to cloudinary',
         data: {

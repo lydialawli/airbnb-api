@@ -19,6 +19,7 @@ const database = require('./controllers/database')
 // Middleware
 const bodyParser = require('body-parser')
 const cors = require('cors')
+app.use(cors({ credentials: true }))
 
 // multer middleware
 const multer = require('multer')
@@ -43,9 +44,7 @@ var upload = multer({ dest: 'photos/' }).single('file')
 app.use(express.static(path.join(__dirname, 'src/public')))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.use(cors({ credentials: true }))
 app.use('*', cloudinaryConfig)
-
 
 // Routes
 app.post('/uploadd',function(req, res) {

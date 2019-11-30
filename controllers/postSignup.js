@@ -7,7 +7,7 @@ const dUri = new Datauri()
 const cloudinary = require('cloudinary')
 const dataUri = req => dUri.format(path.extname(req.file.originalname).toString(), req.file.buffer)
 
-module.exports = (req, res) => {
+module.exports = (req, res, next) => {
   let encrypted = bcrypt.hashSync(req.body.password, 10)
 
   req.body.password = encrypted

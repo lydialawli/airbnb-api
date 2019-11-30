@@ -8,7 +8,7 @@ const cloudinary = require('cloudinary')
 const dataUri = req => dUri.format(path.extname(req.file.originalname).toString(), req.file.buffer)
 
 module.exports = (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
+  // res.header("Access-Control-Allow-Origin", "*");
   let encrypted = bcrypt.hashSync(req.body.password, 10)
 
   req.body.password = encrypted

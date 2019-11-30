@@ -18,8 +18,24 @@ const database = require('./controllers/database')
 
 // Middleware
 const bodyParser = require('body-parser')
+
+// cors 
 const cors = require('cors')
-app.use(cors({ credentials: true, origin: process.env.APP_URL}))
+
+var whitelist = [process.env.APP_URL_HTTPS, process.env.APP_URL_HTTP]
+var corsOptions = {
+  credentials: true,
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
+app.use(cors(corsOptions))
+
 app.all('/', function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");

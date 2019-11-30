@@ -18,8 +18,21 @@ const database = require('./controllers/database')
 
 // Middleware
 const bodyParser = require('body-parser')
+
 const cors = require('cors')
-app.use(cors({ credentials: true }))
+var allowedOrigins = ['http://localhost:3000',
+  process.env.APP_URL]
+app.use(cors({
+  credentials: true, origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      var msg = 'The CORS policy for this site does not ' +
+        'allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  }
+}))
 
 // multer middleware
 const multer = require('multer')
@@ -33,11 +46,11 @@ const dataUri = req => dUri.format(path.extname(req.file.originalname).toString(
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-  cb(null, 'public')
-},
-filename: function (req, file, cb) {
-  cb(null, Date.now() + '-' +file.originalname )
-}
+    cb(null, 'public')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname)
+  }
 })
 var upload = multer({ dest: 'photos/' }).single('file')
 
@@ -47,14 +60,14 @@ app.use(bodyParser.json())
 app.use('*', cloudinaryConfig)
 
 // Routes
-app.post('/uploadd',function(req, res) {
-     
+app.post('/uploadd', function (req, res) {
+
   upload(req, res, function (err) {
-         if (err instanceof multer.MulterError) {
-             return res.status(500).json(err)
-         } else if (err) {
-             return res.status(500).json(err)
-         }
+    if (err instanceof multer.MulterError) {
+      return res.status(500).json(err)
+    } else if (err) {
+      return res.status(500).json(err)
+    }
     return res.status(200).send(req.file)
 
   })
@@ -98,7 +111,7 @@ app.post('/upload', multerUploads, (req, res) => {
 
     return cloudinary.uploader.upload(file).then((result) => {
       const image = result.url;
-      res.send('image is:',image)
+      res.send('image is:', image)
 
       return res.status(200).json({
         messge: 'Your image has been uploded successfully to cloudinary',

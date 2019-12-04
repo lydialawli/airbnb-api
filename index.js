@@ -45,6 +45,7 @@ app.all('/', function (req, res, next) {
 // multer middleware
 const multer = require('multer')
 const multerUploads = require('./middleware/multerUpload')
+const uploadsMultiple = require('./middleware/multerUploadMultiple')
 const Datauri = require('datauri')
 const cloudinaryConfig = require('./config/cloudinaryConfig')
 const path = require('path')
@@ -87,7 +88,7 @@ app.get('/favorites', require('./controllers/getFavorites'))
 app.get('/places/:id', require('./controllers/getPlace'))
 app.get('/', require('./controllers/root'))
 app.get('/places', require('./controllers/getPlaces'))
-app.post('/places', require('./controllers/postPlaces'))
+app.post('/places', uploadsMultiple, require('./controllers/postPlaces'))
 // app.post('/places', upload.array('photos', 9), require('./controllers/postPlaces'))
 app.patch('/places/:id', require('./controllers/patchPlace'))
 app.delete('/places/:id', require('./controllers/deletePlace'))
@@ -113,31 +114,31 @@ app.get('/auth', require('./controllers/auth'))
 
 app.get('/*', (req, res) => res.sendFile(path.join(__dirname, '../public/index.html')))
 
-app.post('/upload', multerUploads, (req, res) => {
-  if (req.file) {
-    const file = dataUri(req).content
+// app.post('/upload', multerUploads, (req, res) => {
+//   if (req.file) {
+//     const file = dataUri(req).content
 
-    return cloudinary.uploader.upload(file).then((result) => {
-      const image = result.url;
-      res.send('image is:', image)
+//     return cloudinary.uploader.upload(file).then((result) => {
+//       const image = result.url;
+//       res.send('image is:', image)
 
-      return res.status(200).json({
-        messge: 'Your image has been uploded successfully to cloudinary',
-        data: {
-          image
-        }
-      })
-    }).catch((err) => res.status(400).json({
-      messge: 'someting went wrong while processing your request',
-      data: {
-        err
-      }
-    }))
-    // console.log('req.file :', file)
+//       return res.status(200).json({
+//         messge: 'Your image has been uploded successfully to cloudinary',
+//         data: {
+//           image
+//         }
+//       })
+//     }).catch((err) => res.status(400).json({
+//       messge: 'someting went wrong while processing your request',
+//       data: {
+//         err
+//       }
+//     }))
+//     // console.log('req.file :', file)
 
-  }
+//   }
 
-});
+// });
 
 // Run server
 app.listen(process.env.PORT, () => {

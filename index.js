@@ -22,7 +22,7 @@ const bodyParser = require('body-parser')
 // cors 
 const cors = require('cors')
 
-var whitelist = [process.env.APP_URL_HTTPS, process.env.APP_URL_HTTP]
+var whitelist = [process.env.APP_URL_HTTPS, process.env.APP_URL_HTTP, 'http://localhost:3000']
 var corsOptions = {
   credentials: true,
   origin: function (origin, callback) {
